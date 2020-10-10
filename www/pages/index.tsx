@@ -3,6 +3,7 @@ import {
   h,
   MarkdownIt,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "../deps.ts";
@@ -19,13 +20,10 @@ interface Rule {
 
 function IndexPage(props: PageProps<Data>) {
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState<Rule[]>([]);
 
-  useEffect(() => {
-    const results = props.data.rules
-      .filter((rule) => rule.code.includes(search));
-    setSearchResults(results);
-  }, [search]);
+  const searchResults = useMemo(() =>
+    props.data.rules
+      .filter((rule) => rule.code.includes(search)), [search]);
 
   return (
     <div class="mx-auto max-w-screen-lg px-6 sm:px-6 md:px-8">
