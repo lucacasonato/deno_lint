@@ -1,11 +1,4 @@
-import {
-  GetStaticData,
-  h,
-  MarkdownIt,
-  PageProps,
-  useEffect,
-  useRef,
-} from "../deps.ts";
+import { GetStaticData, h, PageProps, useEffect, useRef } from "../deps.ts";
 import { Header } from "../components/Header.tsx";
 
 interface Data {
@@ -39,9 +32,9 @@ function IgnoringRulesPage(props: PageProps<Data>) {
 export const getStaticData = async (): Promise<GetStaticData<Data>> => {
   const raw = await Deno.readTextFile("./public/ignoring-rules.md");
 
-  const md = new MarkdownIt();
+  const { mdParse } = await import("../ssr_deps.ts");
 
-  const html = md.render(raw);
+  const html = mdParse(raw).parsed;
 
   return {
     data: {

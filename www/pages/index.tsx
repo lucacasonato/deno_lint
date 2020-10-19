@@ -1,4 +1,4 @@
-import { h, MarkdownIt, useEffect, useRef, useState } from "../deps.ts";
+import { h, useEffect, useRef, useState } from "../deps.ts";
 import type { GetStaticData, PageProps } from "../deps.ts";
 import { Header } from "../components/Header.tsx";
 
@@ -94,11 +94,11 @@ function Rule(props: { rule: Rule }) {
 export const getStaticData = async (): Promise<GetStaticData<Data>> => {
   const json = JSON.parse(await Deno.readTextFile("../docs.json"));
 
-  const md = new MarkdownIt();
+  const { mdParse } = await import("../ssr_deps.ts");
 
   const rules = json.map((rule: any) => ({
     code: rule.code,
-    docs: md.render(rule.docs),
+    docs: mdParse(rule.docs).parsed,
   }));
 
   return {

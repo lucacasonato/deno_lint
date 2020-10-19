@@ -12,5 +12,3 @@ export type {
   GetStaticPaths,
   PageProps,
 } from "https://deno.land/x/dext@0.8.0/mod.ts";
-import MarkdownIt from "https://dev.jspm.io/markdown-it@11.0.0";
-export { MarkdownIt };
